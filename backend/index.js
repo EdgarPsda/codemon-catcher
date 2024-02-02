@@ -1,7 +1,7 @@
-import express from "express";
-import connectDB from "./config/db.js";
-import dotenv from "dotenv";
-import pokemonRoutes from "./routes/pokemonRoutes.js";
+const express = require("express");
+const { connectDB } = require("./config/db.js");
+const dotenv = require("dotenv");
+const pokemonRoutes = require("./routes/pokemonRoutes.js");
 
 const app = express();
 dotenv.config();
