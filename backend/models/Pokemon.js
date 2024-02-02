@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+const mongoose = require("mongoose");
 
 const pokemonSchema = mongoose.Schema({
     name: {
@@ -18,5 +18,6 @@ const pokemonSchema = mongoose.Schema({
 });
 
 const Pokemon = mongoose.model("Pokemon", pokemonSchema);
-export default Pokemon;
+
+module.exports = Pokemon
 

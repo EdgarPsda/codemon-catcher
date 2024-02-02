@@ -1,4 +1,4 @@
-import Pokemon from "../models/Pokemon.js";
+const Pokemon = require("../models/Pokemon.js");
 
 const pokemons = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -41,4 +41,4 @@ const pokemonByName = async (req, res) => {
     }
 };
 
-export { pokemons, pokemonByName };
+module.exports = { pokemons, pokemonByName };
