@@ -14,9 +14,6 @@ describe('Endpoints', () => {
     describe('pokemons', () => {
         describe('get', () => {
             it('return pokemons json', async () => {
-                const pokemon = {
-                    get: jest.fn().mockResolvedValue({ count: 1 }),
-                }
 
                 const res = {
                     json: jest.fn()
