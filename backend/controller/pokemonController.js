@@ -26,4 +26,19 @@ const pokemons = async (req, res) => {
     }
 }
 
-export { pokemons };
+
+const pokemonByName = async (req, res) => {
+    const searchName = req.query.name;
+
+    try {
+        const results = await Pokemon.find({
+            name: { $regex: searchName, $options: 'i' }
+        });
+        res.json(results);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+export { pokemons, pokemonByName };
