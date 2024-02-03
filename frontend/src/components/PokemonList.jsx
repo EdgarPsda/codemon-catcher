@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import PokemonCard from "./PokemonCard"
+import SearchBar from "./SearchBar";
+import { formatData } from "../utils/formatData";
 
 const PokemonList = () => {
 
@@ -7,29 +9,42 @@ const PokemonList = () => {
     const [url, setUrl] = useState("http://localhost:4000/api/pokemons");
     const [prev, setPrev] = useState("");
     const [next, setNext] = useState("");
+    const [filterTerm, setFilterTerm] = useState('');
+
 
     useEffect(() => {
-        const apiRequest = async () => {
-            const res = await fetch(url);
-            const result = await res.json();
+        const fetchData = async () => {
+            try {
+                let res;
+                let result;
 
-            const pokemonsArray = result.results.map(pokemon => {
-                const obj = {
-                    name: pokemon.name,
-                    pokeId: pokemon.pokeId,
-                    sprite: pokemon.sprites
+                if (filterTerm !== '') {
+                    res = await fetch(`http://localhost:4000/api/pokemons/search?name=${filterTerm}`);
+                } else {
+                    res = await fetch(url);
                 }
 
-                return obj;
-            });
+                if (!res.ok) {
+                    throw new Error("Request data failed.");
+                }
+                result = await res.json();
 
-            setPokemons(pokemonsArray);
-            setPrev(result.previous);
-            setNext(result.next);
+                const pokemonsArray = formatData(filterTerm !== '' ? result : result.results);
+                setPokemons(pokemonsArray);
+
+                if (filterTerm === '') {
+                    setPrev(result.previous);
+                    setNext(result.next);
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
         }
 
-        apiRequest();
-    }, [url]);
+        fetchData();
+
+    }, [filterTerm, url]);
 
     const handlePrev = () => {
         setUrl(prev);
@@ -47,6 +62,7 @@ const PokemonList = () => {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-10">
                         <h2 className="text-5xl font-bold text-white">Pokedex</h2>
+                        <SearchBar setFilterTerm={setFilterTerm}></SearchBar>
                         <div>
                             <div className="flex justify-between mt-5">
                                 <button
