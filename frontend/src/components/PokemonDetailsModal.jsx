@@ -1,5 +1,21 @@
+import useAuth from "../hooks/useAuth"
+import { useHistory } from "react-router-dom"
 
 const PokemonDetailsModal = ({ setShowModal, pokemon }) => {
+    const { currentUser } = useAuth();
+    const history = useHistory();
+
+    const handleFavorites = (e) => {
+        e.preventDefault();
+
+        if (currentUser) {
+            console.log("Save to favorites");
+        }
+        else {
+            history.push("/login");
+        }
+    }
+
     return (
         <>
             <div
@@ -40,7 +56,7 @@ const PokemonDetailsModal = ({ setShowModal, pokemon }) => {
                             <button
                                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
-                                onClick={() => setShowModal(false)}
+                                onClick={handleFavorites}
                             >
                                 Save to Favorites
                             </button>
