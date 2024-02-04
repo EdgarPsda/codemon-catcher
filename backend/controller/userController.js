@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Pokemon = require("../models/Pokemon");
 const generateId = require("../helpers/generateId");
 const generateJWT = require("../helpers/generateJWT");
 
@@ -144,6 +145,73 @@ const profile = async (req, res) => {
     res.json(user);
 }
 
+const addFavorites = async (req, res) => {
+    const { userId, pokemonId } = req.params;
+
+    try {
+
+        const user = await User.findById(userId);
+        const pokemon = await Pokemon.findById(pokemonId);
+
+        if (!user) {
+            return res.status(404).send({ msg: 'User not found.' });
+        }
+
+        if (!pokemon) {
+            return res.status(404).send({ msg: 'Pokemon not found.' });
+        }
+
+        if (!user.favorites.includes(pokemonId)) {
+            user.favorites.push(pokemonId);
+            await user.save();
+        }
+
+        res.status(200).send({ msg: 'Pokemon added successfully' });
+
+    } catch (error) {
+        res.status(500).send({ msg: 'Error adding pokemon to favorites' });
+    }
+}
+
+const favorites = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await User.findById(userId).populate('favorites');
+        if (!user) {
+            return res.status(404).send({ msg: 'User not found.' });
+        }
+        res.status(200).json(user.favorites);
+
+    } catch (error) {
+        res.status(500).send({ msg: 'Error getting favorites' });
+    }
+}
+
+const deleteFavorites = async (req, res) => {
+    const { userId, pokemonId } = req.params;
+
+    try {
+        const user = await User.findById(userId);
+        const pokemon = await Pokemon.findById(pokemonId);
+
+        if (!user) {
+            return res.status(404).send({ msg: 'User not found.' });
+        }
+        if (!pokemon) {
+            return res.status(404).send({ msg: 'Pokemon not found.' });
+        }
+
+        user.favorites = user.favorites.filter(favId => favId.toString() !== pokemonId);
+        await user.save();
+        res.status(200).send({ msg: 'Pokemon removed from favorites' });
+
+    } catch (error) {
+        res.status(500).send({ msg: 'Error deleting favorite' });
+    }
+
+}
+
 
 module.exports = {
     users,
@@ -153,5 +221,8 @@ module.exports = {
     forgotPassword,
     validateToken,
     newPassword,
-    profile
+    profile,
+    addFavorites,
+    favorites,
+    deleteFavorites
 }
