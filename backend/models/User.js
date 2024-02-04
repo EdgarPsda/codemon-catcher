@@ -24,7 +24,11 @@ const userSchema = mongoose.Schema({
     confirm: {
         type: Boolean,
         default: false
-    }
+    },
+    favorites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pokemon'
+    }]
 }, {
     timestamps: true
 
