@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import PokemonCard from "./PokemonCard"
 import SearchBar from "./SearchBar";
 import { formatData } from "../utils/formatData";
+import useAuth from "../hooks/useAuth";
 
 const PokemonList = () => {
 
@@ -10,6 +11,8 @@ const PokemonList = () => {
     const [prev, setPrev] = useState("");
     const [next, setNext] = useState("");
     const [filterTerm, setFilterTerm] = useState('');
+
+    const { setAuth } = useAuth();
 
 
     useEffect(() => {
