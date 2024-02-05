@@ -13,7 +13,7 @@ const PokemonList = () => {
     const [filterTerm, setFilterTerm] = useState('');
     const [refreshFavorites, setRefreshFavorites] = useState(false);
 
-    const { setAuth } = useAuth();
+    //const { setAuth } = useAuth();
 
 
     useEffect(() => {
