@@ -1,7 +1,7 @@
 import { useState } from "react"
 import PokemonDetailsModal from "./PokemonDetailsModal"
 
-const PokemonCard = ({ pokemon }) => {
+const PokemonCard = ({ pokemon, favorite, refreshFavorites, setRefreshFavorites }) => {
 
     const [showModal, setShowModal] = useState(false);
 
@@ -24,12 +24,15 @@ const PokemonCard = ({ pokemon }) => {
                         {pokemon.name.toUpperCase()}
                     </a>
                 </h3>
-                <p className="text-base font-semibold text-white">#{pokemon.pokeId}</p>
+                <p className="text-base font-semibold text-white">#{pokemon.poke_id}</p>
             </div>
             {showModal ?
                 <PokemonDetailsModal
                     setShowModal={setShowModal}
                     pokemon={pokemon}
+                    favorite={favorite}
+                    refreshFavorites={refreshFavorites}
+                    setRefreshFavorites={setRefreshFavorites}
                 ></PokemonDetailsModal> : <></>}
         </div>
     )

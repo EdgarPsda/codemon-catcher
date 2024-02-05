@@ -1,15 +1,35 @@
 import useAuth from "../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 
-const PokemonDetailsModal = ({ setShowModal, pokemon }) => {
+const PokemonDetailsModal = ({ setShowModal, pokemon, favorite, refreshFavorites, setRefreshFavorites }) => {
     const { currentUser } = useAuth();
     const history = useHistory();
 
-    const handleFavorites = (e) => {
+    const handleFavorites = async (e) => {
         e.preventDefault();
+        let method = 'POST';
 
         if (currentUser) {
-            console.log("Save to favorites");
+            if (favorite) {
+                method = 'DELETE';
+            }
+
+            try {
+                const response = await fetch(`http://localhost:4000/api/users/${currentUser._id}/favorites/${pokemon.id}`, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    setShowModal(false);
+                    setRefreshFavorites(!refreshFavorites);
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
         }
         else {
             history.push("/login");
@@ -58,7 +78,7 @@ const PokemonDetailsModal = ({ setShowModal, pokemon }) => {
                                 type="button"
                                 onClick={handleFavorites}
                             >
-                                Save to Favorites
+                                {!favorite ? 'Save to Favorites' : 'Remove from Favorites'}
                             </button>
                         </div>
                     </div>

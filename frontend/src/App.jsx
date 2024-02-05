@@ -4,6 +4,7 @@ import Nav from "./components/Nav"
 import { AuthProvider } from "./context/AuthProvider"
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Page404 from "./components/Page404";
+import Favorites from "./components/Favorites";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route path="/" exact component={PokemonList}></Route>
             <Route path="/login" component={Login}></Route>
+            <Route path="/favorites" component={Favorites}></Route>
             <Route render={() => <Page404></Page404>} />
           </Switch>
         </AuthProvider>
