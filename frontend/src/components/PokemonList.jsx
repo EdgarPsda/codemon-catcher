@@ -11,6 +11,7 @@ const PokemonList = () => {
     const [prev, setPrev] = useState("");
     const [next, setNext] = useState("");
     const [filterTerm, setFilterTerm] = useState('');
+    const [refreshFavorites, setRefreshFavorites] = useState(false);
 
     const { setAuth } = useAuth();
 
@@ -126,14 +127,19 @@ const PokemonList = () => {
                         </div>
                         <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
                             {
-                                pokemons.map(pokemon => (
-                                    <PokemonCard
-                                        pokemon={pokemon}
-                                        key={pokemon.pokeId}
-                                    >
-                                    </PokemonCard>
-                                )
-                                )
+                                pokemons.length != 0 ?
+                                    pokemons.map(pokemon => (
+                                        <PokemonCard
+                                            pokemon={pokemon}
+                                            key={pokemon.poke_id}
+                                            favorite={false}
+                                            setRefreshFavorites={setRefreshFavorites}
+                                            refreshFavorites={refreshFavorites}
+                                        >
+                                        </PokemonCard>
+                                    )
+                                    ) :
+                                    <h1 className="text-white">No pokemons found</h1>
                             }
 
                         </div>

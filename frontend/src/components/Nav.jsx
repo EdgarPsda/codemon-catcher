@@ -14,6 +14,9 @@ const Nav = () => {
                 {currentUser ? (
                     <>
                         <li>
+                            <Link to="/favorites" className="hover:text-gray-400">My Favorites</Link>
+                        </li>
+                        <li>
                             <button onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 Logout
                             </button>
